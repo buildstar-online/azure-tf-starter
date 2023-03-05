@@ -114,6 +114,18 @@ ____
     ```
 ___
 
+8. Add your state-bucket details to the `providers.tf` file if you made any customisations
+
+```hcl
+  backend "azurerm" {
+    resource_group_name  = "example-tf-state"
+    storage_account_name = "examplertfstatebucket"
+    container_name       = "exampletfstate"
+    key                  = "example.terraform.tfstate"
+  }
+```
+
+9. Add your ip-address and user-account's clientID to `
 8. Initialize terraform project
 
 ```bash
