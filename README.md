@@ -124,9 +124,13 @@ ___
     key                  = "example.terraform.tfstate"
   }
 ```
+___
 
-9. Add your ip-address and user-account's clientID to `
-8. Initialize terraform project
+9. Add your ip-address and user-account's clientID to the `environment-base.tf` file
+
+___
+
+10. Initialize the terraform project
 
 ```bash
 docker run --platform linux/amd64 -it \
