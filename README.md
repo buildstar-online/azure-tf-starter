@@ -123,7 +123,13 @@ You need to create a service account to represent your digital self and use that
    }
    ```
 
-- Add your ip-address and user-account's clientID to the `environment-base.tf` file
+- Add your ip-address and user-account's clientID to the `environment-base.tf` file under the `Firewall` header.
+
+   ```hcl
+   # Firewall
+   allowed_ips = ["192.168.50.1"]
+   admin_users = ["clientId-goes-here"]
+   ```
 
 
 - Initialize the terraform project
