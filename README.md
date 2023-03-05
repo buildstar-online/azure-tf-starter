@@ -1,6 +1,6 @@
 # Modular Azure Starter Project
 
-Before you start you will need to install the Azure CLI and log-in. I would also reccommend you install a secrets or password manager to hold the credentials we will create.
+Before you start you will need to install the [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) and log-in. I would also reccommend you install a secrets or password manager to hold the credentials we will create. I'll be using a free [Bitwarden](https://bitwarden.com/pricing/) account along with their [bitwarden-cli](https://bitwarden.com/help/cli/) to manage my secrets for this demonstration.
 
 - Install Azure CLI
 
