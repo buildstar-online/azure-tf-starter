@@ -1,80 +1,77 @@
-# Getting Started
+# Modular Azure Starter Project
 
-1. Install Azure CLI
+Before you start you will need to install the Azure CLI and log-in. I would also reccommend you install a secrets or password manager to hold the credentials we will create.
+
+- Install Azure CLI
 
    ```bash
    brew update && \
    brew install azure-cli
    ```
 
-2. Install Bitwarden CLI
+- Install Bitwarden CLI
 
    ```bash
    brew install bitwarden-cli
    ```
 
-3. Login
+- Login
 
    ```bash
    # Authorize the Azure CLI
    az login
    ```
 
-4. Create your service principle
-
-  - Create a service account to represent your digital self and use that to run terraform locally.
-
-  - In production, a unique service account should be created for running and applying the terraform jobs,
-and it should create smaller accounts at instantiation to run the infra it provisions.
-
-  - 'Owner' level access is required because we need to create role assignments. This may potentially be
-scoped down to 'User Access Administrator' + 'Contributor'
-
-      ```bash
-      SUBSCRIPTION=$(az account show --query id --output tsv)
-      SP_NAME="myserviceaccount"
-
-      az ad sp create-for-rbac --sdk-auth \
-        --display-name="${SP_NAME}" \
-        --role="Owner" \
-        --scopes="/subscriptions/$SUBSCRIPTION"
-      ```
-
-  - Add the resulting data to KeePassXC / Bitwarden for now. You will need it again multiple times.
-
 ___
 
+## IAM Setup
 
-5. Set Azure Active Directory Permissions
+You need to create a service account to represent your digital self and use that to run terraform locally. In production, a unique service account should be created for running and applying the terraform jobs,and it should create smaller accounts at instantiation to run the infra it provisions. 
 
-This is required in order to set AD roles in terraform.
+> 'Owner' level access is required because we need to create role assignments. This may potentially be scoped down to 'User Access Administrator' + 'Contributor'
 
-  - Login to https://portal.azure.com/
-  - Navigate to `Azure Active Directory`
-  - Select `Roles and administrators` from the left-side menu
-  - Click `Application administrator`
-  - Click `Add Assignments`
-  - Search for your service accounts name
-  - Repeat for `Application Developer` Role.
+1. Create your service principle and then add the resulting data to KeePassXC / Bitwarden for now. You will need it again multiple times.
 
-___
+    ```bash
+    SUBSCRIPTION=$(az account show --query id --output tsv)
+    SP_NAME="myserviceaccount"
 
-6. Log-in as the service principle or user.
+    az ad sp create-for-rbac --sdk-auth \
+      --display-name="${SP_NAME}" \
+      --role="Owner" \
+      --scopes="/subscriptions/$SUBSCRIPTION"
+    ```
 
-- we will use this account to create the terraform state bucket.
+2. Setup the Azure Active Directory Permissions for your Service Principle. This is required in order to set AD roles in terraform.
 
-```bash
-  az login --service-principal \
-    --username $(bw get item admin-robot |jq -r '.fields[] |select(.name=="clientId") |.value') \
-    --password $(bw get item admin-robot |jq -r '.fields[] |select(.name=="clientSecret") |.value') \
-    --tenant $(bw get item admin-robot |jq -r '.fields[] |select(.name=="tenantId") |.value')
-```
+   - Login to https://portal.azure.com/
+  
+   -  Navigate to `Azure Active Directory`
+  
+   - Select `Roles and administrators` from the left-side menu
+  
+   - Click `Application administrator`
+  
+   - Click `Add Assignments`
+  
+   - Search for your service accounts name
+  
+   - Repeat for `Application Developer` Role.
+   
 
-____
+## Creating the State Bucket
 
-7. Create the Terraform state bucket
+- Before we start you should login to Azure again, but now as the service principle we created. We will use this account to create the terraform state bucket. That way, only the service-principle will have access to it.
 
-  - All Azure Storage Accounts are encrypted by default using Microsoft Managed Keys
+   ```bash
+   az login --service-principal \
+      --username $(bw get item admin-robot |jq -r '.fields[] |select(.name=="clientId") |.value') \
+      --password $(bw get item admin-robot |jq -r '.fields[] |select(.name=="clientSecret") |.value') \
+      --tenant $(bw get item admin-robot |jq -r '.fields[] |select(.name=="tenantId") |.value')
+   ```
+
+- Now Create the Terraform state bucket
+
     ```bash
     export SUBSCRIPTION=$(az account show --query id --output tsv)    
     export KIND="StorageV2"
@@ -112,9 +109,10 @@ ____
         --fail-on-exist \
         --public-access="off"
     ```
-___
+    
+## Initializing your Terraform Project
 
-8. Add your state-bucket details to the `providers.tf` file if you made any customisations
+- Add your state-bucket details to the `providers.tf` file if you made any customisations
 
 ```hcl
   backend "azurerm" {
@@ -124,33 +122,31 @@ ___
     key                  = "example.terraform.tfstate"
   }
 ```
-___
 
-9. Add your ip-address and user-account's clientID to the `environment-base.tf` file
+- Add your ip-address and user-account's clientID to the `environment-base.tf` file
 
-___
 
-10. Initialize the terraform project
+- Initialize the terraform project
 
-```bash
-docker run --platform linux/amd64 -it \
--e ARM_CLIENT_ID=$(bw get item admin-robot |jq -r '.fields[] |select(.name=="clientId") |.value') \
--e ARM_CLIENT_SECRET=$(bw get item admin-robot |jq -r '.fields[] |select(.name=="clientSecret") |.value') \
--e ARM_SUBSCRIPTION_ID=$(bw get item admin-robot |jq -r '.fields[] |select(.name=="subscriptionId") |.value') \
--e ARM_TENANT_ID=$(bw get item admin-robot |jq -r '.fields[] |select(.name=="tenantId") |.value') \
--v $(pwd):/terraform -w /terraform \
-hashicorp/terraform init
-```
+   ```bash
+   docker run --platform linux/amd64 -it \
+      -e ARM_CLIENT_ID=$(bw get item admin-robot |jq -r '.fields[] |select(.name=="clientId") |.value') \
+      -e ARM_CLIENT_SECRET=$(bw get item admin-robot |jq -r '.fields[] |select(.name=="clientSecret") |.value') \
+      -e ARM_SUBSCRIPTION_ID=$(bw get item admin-robot |jq -r '.fields[] |select(.name=="subscriptionId") |.value') \
+      -e ARM_TENANT_ID=$(bw get item admin-robot |jq -r '.fields[] |select(.name=="tenantId") |.value') \
+      -v $(pwd):/terraform -w /terraform \
+      hashicorp/terraform init
+   ```
 
-9. Plan / Apply resources
+- Plan / Apply resources
 
-```bash
-docker run --platform linux/amd64 -it \
--e ARM_CLIENT_ID=$(bw get item admin-robot |jq -r '.fields[] |select(.name=="clientId") |.value') \
--e ARM_CLIENT_SECRET=$(bw get item admin-robot |jq -r '.fields[] |select(.name=="clientSecret") |.value') \
--e ARM_SUBSCRIPTION_ID=$(bw get item admin-robot |jq -r '.fields[] |select(.name=="subscriptionId") |.value') \
--e ARM_TENANT_ID=$(bw get item admin-robot |jq -r '.fields[] |select(.name=="tenantId") |.value') \
--v $(pwd):/terraform -w /terraform \
-hashicorp/terraform apply
-```
+   ```bash
+   docker run --platform linux/amd64 -it \
+      -e ARM_CLIENT_ID=$(bw get item admin-robot |jq -r '.fields[] |select(.name=="clientId") |.value') \
+      -e ARM_CLIENT_SECRET=$(bw get item admin-robot |jq -r '.fields[] |select(.name=="clientSecret") |.value') \
+      -e ARM_SUBSCRIPTION_ID=$(bw get item admin-robot |jq -r '.fields[] |select(.name=="subscriptionId") |.value') \
+      -e ARM_TENANT_ID=$(bw get item admin-robot |jq -r '.fields[] |select(.name=="tenantId") |.value') \
+      -v $(pwd):/terraform -w /terraform \
+      hashicorp/terraform apply
+   ```
 
