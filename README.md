@@ -123,7 +123,7 @@ You need to create a service account to represent your digital self and use that
    }
    ```
 
-- Add your ip-address and user-account's clientID to the `environment-base.tf` file under the `Firewall` header.
+- Add your ip-address and personal azure account's clientID to the `environment-base.tf` file under the `Firewall` header.
 
    ```hcl
    # Firewall
