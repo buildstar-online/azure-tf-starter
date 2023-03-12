@@ -162,3 +162,21 @@ You need to create a service account to represent your digital self and use that
       hashicorp/terraform apply
    ```
 
+- Destroy Resources
+
+   ```bash
+   docker run --platform linux/amd64 -it \
+      -e ARM_CLIENT_ID=$(bw get item admin-robot |jq -r '.fields[] |select(.name=="clientId") |.value') \
+      -e ARM_CLIENT_SECRET=$(bw get item admin-robot |jq -r '.fields[] |select(.name=="clientSecret") |.value') \
+      -e ARM_SUBSCRIPTION_ID=$(bw get item admin-robot |jq -r '.fields[] |select(.name=="subscriptionId") |.value') \
+      -e ARM_TENANT_ID=$(bw get item admin-robot |jq -r '.fields[] |select(.name=="tenantId") |.value') \
+      -v $(pwd):/terraform -w /terraform \
+      hashicorp/terraform destroy
+   ```
+   
+
+- Cleanup
+
+   ```bash
+   # ToDo
+   ```
