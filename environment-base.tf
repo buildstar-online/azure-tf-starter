@@ -10,8 +10,7 @@ locals {
   # Security Options
   admin_identity = "bradley"
   allowed_ips    = [""]
-  admin_users    = ["${data.azurerm_client_config.current.object_id}"]
-
+  admin_users = ["", "${data.azurerm_client_config.current.object_id}"]
 }
 
 module "environment-base" {
@@ -31,7 +30,7 @@ module "environment-base" {
 
   # Virtual Network
   vnet_name          = "v-net"
-  vnet_address_space = ["10.0.0.0/16"]
+  vnet_address_space = ["192.168.0.0/16"]
 
   # Container Registry
   cr_sku                        = "Basic"
@@ -48,6 +47,7 @@ module "environment-base" {
   # Firewall
   allowed_ips = local.allowed_ips
   admin_users = local.admin_users
+
 }
 
 module "scale-set" {
@@ -79,21 +79,28 @@ module "scale-set" {
   vm_network_interface            = "vm-nic"
 
   # Network options
-  vnet_name                 = module.environment-base.vnet_name
-  vnet_subnet_name          = "scale-set-subnet"
-  subnet_prefixes           = ["10.0.1.0/24"]
-  network_security_group_id = module.environment-base.network_security_group.id
+  vnet_name        = module.environment-base.vnet_name
+  vnet_subnet_name = "scale-set-subnet"
+  subnet_prefixes  = ["192.168.1.0/24"]
 
-  # Disk options
-  vm_disk_caching         = "ReadWrite"
-  vm_storage_account_type = "StandardSSD_LRS"
-  vm_disk_size_gb         = "500"
+  # OS Disk options
+  vm_os_disk_caching                   = "ReadWrite"
+  vm_os_storage_account_type           = "Premium_LRS"
+  vm_os_disk_size_gb                   = "32"
+  vm_os_disk_write_accelerator_enabled = false
+
+  # Storage Disk options
+  vm_data_disk_caching                   = "None"
+  vm_data_storage_account_type           = "PremiumV2_LRS"
+  vm_data_disk_size_gb                   = "32"
+  vm_data_disk_write_accelerator_enabled = false
+  vm_data_disk_create_option             = "Empty"
 
   # OS Images settings
-  vm_source_image_publisher = "Debian"
-  vm_source_image_offer     = "debian-12-daily"
-  vm_source_image_sku       = "12-gen2"
-  vm_source_image_verson    = "0.20230309.1314"
+  vm_source_image_publisher = "Canonical"
+  vm_source_image_offer     = "0001-com-ubuntu-server-focal-daily"
+  vm_source_image_sku       = "20_04-daily-lts-gen2"
+  vm_source_image_verson    = "20.04.202303090"
 
   # Storage account
   storage_account_url = module.environment-base.storage_account.primary_blob_endpoint
@@ -108,5 +115,9 @@ module "scale-set" {
   vm_net_iface_name                          = "vm-nic"
   vm_net_iface_ipconfig_name                 = "vm-nic-config"
   vm_net_iface_private_ip_address_allocation = "Dynamic"
+
+  depends_on = [
+    module.environment-base
+  ]
 }
 
