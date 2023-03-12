@@ -1,8 +1,8 @@
 # Modular Azure Starter Project
 
 Modules in use:
-1. https://github.com/cloudymax/modules-azure-tf-base
-2. https://github.com/cloudymax/modules-azure-tf-scale-set 
+1. [azure-tf-base](https://github.com/cloudymax/modules-azure-tf-base)
+2. [azure-tf-scale-set ](https://github.com/cloudymax/modules-azure-tf-scale-set)
 
 ## Getting Started
 
