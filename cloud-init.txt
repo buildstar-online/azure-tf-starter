@@ -83,4 +83,5 @@ runcmd:
   - mv /etc/unity-hub /usr/bin/unity-hub
   - sudo xvfb-run -ae /dev/stdout /opt/unityhub/unityhub-bin --no-sandbox --headless install-path --set "/opt/unity/editors"
   - git lfs install --system --skip-repo
+  - wget https://download.microsoft.com/download/4/3/9/439aea00-a02d-4875-8712-d1ab46cf6a73/NVIDIA-Linux-x86_64-510.47.03-grid-azure.run
 
