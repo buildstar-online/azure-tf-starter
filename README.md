@@ -180,3 +180,42 @@ You need to create a service account to represent your digital self and use that
    ```bash
    # ToDo
    ```
+
+<!-- BEGIN_TF_DOCS -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~>2.36.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~>3.47.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | ~>3.4.3 |
+| <a name="requirement_time"></a> [time](#requirement\_time) | ~>0.9.1 |
+| <a name="requirement_tls"></a> [tls](#requirement\_tls) | ~>4.0.4 |
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~>3.47.0 |
+
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_environment-base"></a> [environment-base](#module\_environment-base) | github.com/cloudymax/modules-azure-tf-base | n/a |
+| <a name="module_scale-set"></a> [scale-set](#module\_scale-set) | github.com/cloudymax/modules-azure-tf-scale-set | n/a |
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
+
+## Inputs
+
+No inputs.
+
+## Outputs
+
+No outputs.
+<!-- END_TF_DOCS -->
