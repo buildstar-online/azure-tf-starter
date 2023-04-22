@@ -1,9 +1,9 @@
-name: Terraform
+name: Run Terraform
 on:
   workflow_dispatch:
 
 jobs:
-  generate-code-release:
+  run-terraform:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -14,7 +14,6 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Terraform fmt
-      id: fmt
       run: |
         docker run --platform linux/amd64 -it \
           -e ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }} \
@@ -26,7 +25,6 @@ jobs:
       continue-on-error: false
 
     - name: Terraform Init
-      id: init
       run: |
         docker run --platform linux/amd64 -it \
           -e ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }} \
@@ -38,7 +36,6 @@ jobs:
       continue-on-error: false
 
     - name: Terraform Validate
-      id: validate
       run: |
         docker run --platform linux/amd64 -it \
           -e ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }} \
@@ -50,7 +47,6 @@ jobs:
       continue-on-error: false
 
     - name: Terraform Plan
-      id: plan
       run: |
         docker run --platform linux/amd64 -it \
           -e ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }} \
