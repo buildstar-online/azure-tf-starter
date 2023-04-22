@@ -16,6 +16,7 @@ jobs:
           -v $(pwd):/terraform -w /terraform \
           hashicorp/terraform fmt
       continue-on-error: false
+      shell: bash
 
     - name: Terraform Init
       run: |
@@ -25,9 +26,10 @@ jobs:
           -e ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }} \
           -e ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }} \
           -v $(pwd):/terraform -w /terraform \
-          hashicorp/terraform init
+          hashicorp/terraform init --upgrade
       continue-on-error: false
-
+      shell: bash
+      
     - name: Terraform Validate
       run: |
         docker run --platform linux/amd64 \
@@ -38,7 +40,8 @@ jobs:
           -v $(pwd):/terraform -w /terraform \
           hashicorp/terraform validate --no-color
       continue-on-error: false
-
+      shell: bash
+      
     - name: Terraform Plan
       run: |
         docker run --platform linux/amd64 \
@@ -49,3 +52,4 @@ jobs:
           -v $(pwd):/terraform -w /terraform \
           hashicorp/terraform plan --no-color
       continue-on-error: false
+      shell: bash
