@@ -38,7 +38,7 @@ jobs:
           -e ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }} \
           -e ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }} \
           -v $(pwd):/terraform -w /terraform \
-          hashicorp/terraform validate --no-color
+          hashicorp/terraform validate -no-color
       continue-on-error: false
       shell: bash
       
@@ -50,6 +50,6 @@ jobs:
           -e ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }} \
           -e ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }} \
           -v $(pwd):/terraform -w /terraform \
-          hashicorp/terraform plan --no-color
+          hashicorp/terraform plan -no-color
       continue-on-error: false
       shell: bash
