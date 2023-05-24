@@ -23,10 +23,6 @@ variable "allowed_ips" {
   type = list(string)
 }
 
-variable "admin_users" {
-  type = list(string)
-}
-
 variable "cr_sku" {
   type    = string
   default = "Basic"
