@@ -63,7 +63,7 @@ jobs:
       continue-on-error: false
       shell: bash
 
-    - name: Terraform Apply
+    - name: Terraform Destroy
       id: apply
       run: |
         docker run --platform linux/amd64 \
@@ -72,7 +72,7 @@ jobs:
           -e ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }} \
           -e ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }} \
           -v $(pwd):/terraform -w /terraform \
-          hashicorp/terraform apply -no-color -auto-approve -input=false \
+          hashicorp/terraform destroy -no-color -auto-approve -input=false \
           -var="vm_sku=$VM_SKU" \
           -var="vm_instances=$NUM_INSTANCES" \
           -var="max_bid_price=$MAX_BID" \
