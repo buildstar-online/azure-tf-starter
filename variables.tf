@@ -122,3 +122,7 @@ variable "vm_network_interface" {
   default = "vm-nic"
 }
 
+variable "vm_os_disk_size_gb" {
+  type    = number
+  default = 64
+}
