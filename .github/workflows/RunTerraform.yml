@@ -75,7 +75,7 @@ jobs:
           -var="vm_sku=$VM_SKU" \
           -var='vm_instances=1' \
           -var="max_bid_price=$MAX_BID" \
-          -var='allowed_ips=["77.249.236.43/32"]'
+          -var='allowed_ips=77.249.236.43/32'
       continue-on-error: false
       shell: bash
       env:
