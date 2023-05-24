@@ -42,11 +42,6 @@ variable "account_replication_type" {
   default = "LRS"
 }
 
-variable "log_storage_tier" {
-  type    = string
-  default = "Hot"
-}
-
 variable "kv_sku_name" {
   type    = string
   default = "standard"
