@@ -9,7 +9,6 @@ locals {
 
   # Security Options
   admin_identity = "bradley"
-  allowed_ips    = [""]
   admin_users    = ["${data.azurerm_client_config.current.client_id}"]
 }
 
@@ -45,7 +44,7 @@ module "environment-base" {
   kv_sku_name = "standard"
 
   # Firewall
-  allowed_ips = local.allowed_ips
+  allowed_ips = var.allowed_ips
   admin_users = local.admin_users
 
 }
@@ -58,7 +57,7 @@ module "scale-set" {
   environment    = local.environment
   location       = local.location
   resource_group = local.resource_group
-  allowed_ips    = local.allowed_ips
+  allowed_ips    = var.allowed_ips
 
   # Scale Set VM settings
   scale_set_name                  = "scale-set"
