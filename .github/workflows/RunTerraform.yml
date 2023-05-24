@@ -79,7 +79,7 @@ jobs:
           -var="vm_sku=$VM_SKU" \
           -var="vm_instances=$NUM_INSTANCES" \
           -var="max_bid_price=$MAX_BID" \
-          -var='allowed_ips=${{github.event.inputs.allowed_ip}}, ${{ steps.ip.outputs.ipv4 }}'
+          -var='allowed_ips=[${{github.event.inputs.allowed_ip}}, ${{ steps.ip.outputs.ipv4 }}]'
       continue-on-error: false
       shell: bash
       env:
