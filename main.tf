@@ -10,7 +10,7 @@ locals {
   # Security Options
   admin_identity = "bradley"
   allowed_ips    = [""]
-  admin_users    = [""]
+  admin_users    = [data.azurerm_client_config.current.object_id]
 }
 
 module "environment-base" {
