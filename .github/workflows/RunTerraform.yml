@@ -71,7 +71,7 @@ jobs:
           -e ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }} \
           -e ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }} \
           -v $(pwd):/terraform -w /terraform \
-          hashicorp/terraform plan -no-color \
+          hashicorp/terraform plan -no-color -lock=false -out terraform.plan \
           -var="vm_sku=$VM_SKU" \
           -var="vm_instances=$NUM_INSTANCES" \
           -var="max_bid_price=$MAX_BID" \
@@ -94,7 +94,7 @@ jobs:
           -e ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }} \
           -e ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }} \
           -v $(pwd):/terraform -w /terraform \
-          hashicorp/terraform plan -no-color \
+          hashicorp/terraform apply -no-color -auto-approve -input=false \
           -var="vm_sku=$VM_SKU" \
           -var="vm_instances=$NUM_INSTANCES" \
           -var="max_bid_price=$MAX_BID" \
