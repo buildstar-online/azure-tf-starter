@@ -63,6 +63,10 @@ jobs:
       continue-on-error: false
       shell: bash
       
+    - name: Public IP
+      id: ip
+      uses: haythem/public-ip@v1.3
+      
     - name: Terraform Plan
       run: |
         docker run --platform linux/amd64 \
@@ -75,7 +79,7 @@ jobs:
           -var="vm_sku=$VM_SKU" \
           -var="vm_instances=$NUM_INSTANCES" \
           -var="max_bid_price=$MAX_BID" \
-          -var="allowed_ips=$ALLOWED_IPS"
+          -var="allowed_ips="$ALLOWED_IPS, ${{ steps.ip.outputs.ipv4 }}"
       continue-on-error: false
       shell: bash
       env:
