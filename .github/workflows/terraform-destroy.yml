@@ -1,6 +1,27 @@
 name: Terraform Destroy
 on:
   workflow_dispatch:
+    inputs:
+      vm_sku:
+        description: 'Virtual Machine SKU'
+        required: true
+        default: 'Standard_NV6ads_A10_v5'
+      num_instances:
+        description: 'Number of Instances'
+        required: true
+        default: '1'
+      max_bid:
+        description: 'Maximum spot bid amount'
+        required: true
+        default: '0.24'        
+      allowed_ip:
+        description: 'Your IP address'
+        required: true
+        default: '192.168.50.1' 
+      disk_size:
+        description: 'VM Disk Size (GB)'
+        required: true
+        default: '64'
 jobs:
   terraform-destroy:
     runs-on: ubuntu-latest
@@ -51,6 +72,16 @@ jobs:
           -e ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }} \
           -e ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }} \
           -v $(pwd):/terraform -w /terraform \
-          hashicorp/terraform destroy -no-color -auto-approve -input=false 
+          hashicorp/terraform apply -no-color -auto-approve -input=false \
+          -var="vm_sku=$VM_SKU" \
+          -var="vm_instances=$NUM_INSTANCES" \
+          -var="max_bid_price=$MAX_BID" \
+          -var="allowed_ips=$ALLOWED_IPS"
       continue-on-error: false
       shell: bash
+      env:
+        VM_SKU: ${{github.event.inputs.vm_sku}}
+        DISK_SIZE: ${{github.event.inputs.disk_size}}
+        NUM_INSTANCES: ${{github.event.inputs.num_instances}}
+        MAX_BID: ${{github.event.inputs.max_bid}}
+        ALLOWED_IPS: ${{github.event.inputs.allowed_ip}}
