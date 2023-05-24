@@ -86,7 +86,7 @@ module "scale-set" {
   # OS Disk options
   vm_os_disk_caching                   = "ReadWrite"
   vm_os_storage_account_type           = "Premium_LRS"
-  vm_os_disk_size_gb                   = "32"
+  vm_os_disk_size_gb                   = 32
   vm_os_disk_write_accelerator_enabled = false
 
   # Storage Disk options
