@@ -21,6 +21,7 @@ on:
       allowed_ip:
         description: 'Your IP address'
         required: true
+        default: '192.168.50.1/24'  
 jobs:
   run-terraform:
     runs-on: ubuntu-latest
