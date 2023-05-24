@@ -82,11 +82,6 @@ variable "spot_restore_enabled" {
   default = true
 }
 
-variable "spot_restore_enabled" {
-  type    = bool
-  default = true
-}
-
 variable "spot_restore_timeout" {
   type    = string
   default = "PT1H30M"
@@ -110,11 +105,6 @@ variable "overprovision" {
 variable "ultra_ssd_enabled" {
   type    = bool
   default = false
-}
-
-variable "scale_in_rule" {
-  type    = string
-  default = "NewestVM"
 }
 
 variable "scale_in_rule" {
