@@ -20,7 +20,7 @@ variable "admin_identity" {
 }
 
 variable "allowed_ips" {
-  type = string
+  type = list(string)
 }
 
 variable "cr_sku" {
