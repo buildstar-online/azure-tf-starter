@@ -44,7 +44,7 @@ module "environment-base" {
   kv_sku_name = "standard"
 
   # Firewall
-  allowed_ips = "${var.allowed_ips}"
+  allowed_ips = var.allowed_ips
   admin_users = local.admin_users
 
 }
