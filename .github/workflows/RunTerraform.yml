@@ -17,7 +17,7 @@ on:
       allowed_ip:
         description: 'Your IP address'
         required: true
-        default: '192.168.50.1/24'  
+        default: '192.168.50.1'  
 jobs:
   run-terraform:
     runs-on: ubuntu-latest
@@ -71,7 +71,7 @@ jobs:
           -var="vm_sku=$VM_SKU" \
           -var="vm_instances=$NUM_INSTANCES" \
           -var="max_bid_price=$MAX_BID" \
-          -var="allowed_ips=[\"$ALLOWED_IPS\"]"
+          -var="allowed_ips=[\"$ALLOWED_IPS\/32\"]"
       continue-on-error: false
       shell: bash
       env:
