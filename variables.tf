@@ -60,7 +60,7 @@ variable "vm_sku" {
 
 variable "vm_instances" {
   type    = number
-  default = "1"
+  default = 1
 }
 
 variable "priority" {
