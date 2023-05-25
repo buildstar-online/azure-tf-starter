@@ -13,14 +13,14 @@ on:
       max_bid:
         description: 'Maximum spot bid amount'
         required: true
-        default: '0.24'        
-      allowed_ip:
-        description: 'Your IP address'
-        required: true
-        default: '192.168.50.1' 
+        default: '0.24'
       resource_group_name:
         description: 'Resource Group Name'
         required: true
+      allowed_ip:
+        description: 'Your IP address'
+        required: true
+        default: '192.168.50.1'
 
 jobs:
   run-terraform:
