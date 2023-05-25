@@ -79,7 +79,7 @@ jobs:
           -var="vm_sku=$VM_SKU" \
           -var="vm_instances=$NUM_INSTANCES" \
           -var="max_bid_price=$MAX_BID" \
-          -var='allowed_ips=["${{ steps.ip.outputs.ipv4 }}"]'
+          -var="allowed_ips=[$RUNNER_IP]"
       continue-on-error: false
       shell: bash
       env:
@@ -88,6 +88,7 @@ jobs:
         NUM_INSTANCES: ${{github.event.inputs.num_instances}}
         MAX_BID: ${{github.event.inputs.max_bid}}
         ALLOWED_IPS: ${{github.event.inputs.allowed_ip}}
+        RUNNER_IP: ${{ steps.ip.outputs.ipv4 }}
 
     - name: Terraform Apply
       id: apply
