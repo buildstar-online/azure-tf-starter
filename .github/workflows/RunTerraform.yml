@@ -2,25 +2,26 @@ name: Run Terraform
 on:
   workflow_dispatch:
     inputs:
-      vm_sku:
-        description: 'Virtual Machine SKU'
-        required: true
-        default: 'Standard_NV6ads_A10_v5'
-      num_instances:
-        description: 'Number of Instances'
-        required: true
-        default: '1'
-      max_bid:
-        description: 'Maximum spot bid amount'
-        required: true
-        default: '0.24'
+      #vm_sku:
+      #  description: 'Virtual Machine SKU'
+      # required: true
+      #  default: 'Standard_NV6ads_A10_v5'
+      #num_instances:
+      #  description: 'Number of Instances'
+      #  required: true
+      #  default: '1'
+      #max_bid:
+      #  description: 'Maximum spot bid amount'
+      #  required: true
+      #  default: '0.24'
       resource_group_name:
         description: 'Resource Group Name'
         required: true
-      allowed_ip:
-        description: 'Your IP address'
-        required: true
-        default: '192.168.50.1'
+        default: "demo-rg"
+      #allowed_ip:
+      #  description: 'Your IP address'
+      #  required: true
+      #  default: '192.168.50.1'
 
 jobs:
   run-terraform:
