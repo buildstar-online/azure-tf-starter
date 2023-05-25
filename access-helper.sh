@@ -14,7 +14,7 @@ rg_exists(){
     exists=$(az group list \
         --query "[*].name" \
         -o tsv |\
-        grep -cw $resource_group)
+        grep -cw "$resource_group")
 
     if [ "$exists" -gt "0" ]; then
         echo " > Resource Group exists."
