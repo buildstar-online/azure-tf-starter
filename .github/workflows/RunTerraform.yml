@@ -18,10 +18,9 @@ on:
         description: 'Your IP address'
         required: true
         default: '192.168.50.1' 
-      rg_name:
+      resource_group_name:
         description: 'Resource Group Name'
         required: true
-        default: 'demo-rg'
 
 jobs:
   run-terraform:
@@ -43,12 +42,13 @@ jobs:
       
     - name: Manage Firewalls
       run: |
-        chmod +x access-helper.sh && \
-        bash -x access-helper.sh "add" "$RUNNER_IP" "$RESOURCE_GROUP" ${{ steps.ip.outputs.rg_name }}
+        #chmod +x access-helper.sh && \
+        #bash -x access-helper.sh "add" "$RUNNER_IP" "$RESOURCE_GROUP" ${{ steps.ip.outputs.rg_name }}
+        echo $RUNNER_IP && echo $RESOURCE_GROUP_NAME
       shell: bash
       env:
         RUNNER_IP: ${{ steps.ip.outputs.ipv4 }}
-        RESOURCE_GROUP: ${{ steps.ip.outputs.rg_name }}
+        RESOURCE_GROUP_NAME: ${{ steps.ip.outputs.resource_group_name }}
         
     - name: Terraform fmt
       run: |
