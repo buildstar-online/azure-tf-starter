@@ -2,27 +2,30 @@ name: Run Terraform
 on:
   workflow_dispatch:
     inputs:
-      #vm_sku:
-      #  description: 'Virtual Machine SKU'
-      # required: true
-      #  default: 'Standard_NV6ads_A10_v5'
-      #num_instances:
-      #  description: 'Number of Instances'
-      #  required: true
-      #  default: '1'
-      #max_bid:
-      #  description: 'Maximum spot bid amount'
-      #  required: true
-      #  default: '0.24'
-      resource_group_name:
+      vm_sku:
+        description: 'Virtual Machine SKU'
+        required: true
+        default: 'Standard_NV6ads_A10_v5'
+      num_instances:
+        description: 'Number of Instances'
+        required: true
+        default: '1'
+      max_bid:
+        description: 'Maximum spot bid amount'
+        required: true
+        default: '0.24'        
+      allowed_ip:
+        description: 'Your IP address'
+        required: true
+        default: '192.168.50.1' 
+      disk_size:
+        description: 'VM Disk Size (GB)'
+        required: true
+        default: '64'  
+      resource_group:
         description: 'Resource Group Name'
         required: true
-        default: "demo-rg"
-      #allowed_ip:
-      #  description: 'Your IP address'
-      #  required: true
-      #  default: '192.168.50.1'
-
+        default: 'demo-rg'  
 jobs:
   run-terraform:
     runs-on: ubuntu-latest
@@ -43,13 +46,11 @@ jobs:
       
     - name: Manage Firewalls
       run: |
-        #chmod +x access-helper.sh && \
-        #bash -x access-helper.sh "add" "$RUNNER_IP" "$RESOURCE_GROUP" ${{ steps.ip.outputs.rg_name }}
-        echo $RUNNER_IP && echo $RESOURCE_GROUP_NAME
+        sudo bash access-helper.sh add $RUNNER_IP $RESOURCE_GROUP
       shell: bash
       env:
         RUNNER_IP: ${{ steps.ip.outputs.ipv4 }}
-        RESOURCE_GROUP_NAME: ${{ steps.ip.outputs.resource_group_name }}
+        RESOURCE_GROUP: ${{ github.event.inputs.resource_group }}
         
     - name: Terraform fmt
       run: |
@@ -104,13 +105,13 @@ jobs:
       continue-on-error: false
       shell: bash
       env:
-        VM_SKU: ${{github.event.inputs.vm_sku}}
-        DISK_SIZE: 64
-        NUM_INSTANCES: ${{github.event.inputs.num_instances}}
-        MAX_BID: ${{github.event.inputs.max_bid}}
-        ALLOWED_IPS: ${{github.event.inputs.allowed_ip}}
+        VM_SKU: ${{ github.event.inputs.vm_sku }}
+        DISK_SIZE: ${{ github.event.inputs.disk_size }}
+        NUM_INSTANCES: ${{ github.event.inputs.num_instances }}
+        MAX_BID: ${{ github.event.inputs.max_bid }}
+        ALLOWED_IPS: ${{ github.event.inputs.allowed_ip }}
         RUNNER_IP: ${{ steps.ip.outputs.ipv4 }}
-        RESOURCE_GROUP: ${{ steps.ip.outputs.rg_name }}
+        RESOURCE_GROUP: ${{ github.event.inputs.resource_group }}
 
     - name: Terraform Apply
       id: apply
@@ -130,10 +131,10 @@ jobs:
       continue-on-error: false
       shell: bash
       env:
-        VM_SKU: ${{github.event.inputs.vm_sku}}
-        DISK_SIZE: 64
-        NUM_INSTANCES: ${{github.event.inputs.num_instances}}
-        MAX_BID: ${{github.event.inputs.max_bid}}
-        ALLOWED_IPS: ${{github.event.inputs.allowed_ip}}
+        VM_SKU: ${{ github.event.inputs.vm_sku }}
+        DISK_SIZE: ${{ github.event.inputs.disk_size }}
+        NUM_INSTANCES: ${{ github.event.inputs.num_instances }}
+        MAX_BID: ${{ github.event.inputs.max_bid }}
+        ALLOWED_IPS: ${{ github.event.inputs.allowed_ip }}
         RUNNER_IP: ${{ steps.ip.outputs.ipv4 }}
-        RESOURCE_GROUP: ${{ steps.ip.outputs.rg_name }}
+        RESOURCE_GROUP: ${{ github.event.inputs.resource_group }}
