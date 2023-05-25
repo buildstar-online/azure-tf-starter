@@ -38,7 +38,7 @@ jobs:
       
     - name: Manage Firewalls
       run: |
-        access-helper.sh add ${{ steps.ip.outputs.ipv4 }} ${{ steps.ip.outputs.resource_group }}
+        ./access-helper.sh add ${{ steps.ip.outputs.ipv4 }} ${{ steps.ip.outputs.resource_group }}
       shell: bash
         
     - name: Terraform fmt
