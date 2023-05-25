@@ -46,7 +46,8 @@ jobs:
       
     - name: Manage Firewalls
       run: |
-        sudo bash access-helper.sh add $RUNNER_IP $RESOURCE_GROUP
+        chmod +x access-helper.sh && \
+        bash -x access-helper.sh add "$RUNNER_IP" "$RESOURCE_GROUP"
       shell: bash
       env:
         RUNNER_IP: ${{ steps.ip.outputs.ipv4 }}
