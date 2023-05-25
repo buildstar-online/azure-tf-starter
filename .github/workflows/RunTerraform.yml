@@ -31,6 +31,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    
+    - name: Public IP
+      id: ip
+      uses: haythem/public-ip@v1.3
+      
+    - name: Manage Firewalls
+      run: |
+        access-helper.sh add ${{ steps.ip.outputs.ipv4 }} ${{ steps.ip.outputs.resource_group }}
+      shell: bash
+        
     - name: Terraform fmt
       run: |
         docker run --platform linux/amd64 \
@@ -66,10 +76,6 @@ jobs:
           hashicorp/terraform validate -no-color
       continue-on-error: false
       shell: bash
-      
-    - name: Public IP
-      id: ip
-      uses: haythem/public-ip@v1.3
       
     - name: Terraform Plan
       run: |
