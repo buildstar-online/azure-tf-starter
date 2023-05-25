@@ -22,10 +22,11 @@ on:
         description: 'VM Disk Size (GB)'
         required: true
         default: '64'  
-      resource_group:
+      rg_name:
         description: 'Resource Group Name'
         required: true
-        default: 'demo-rg'  
+        default: 'demo-rg'
+
 jobs:
   run-terraform:
     runs-on: ubuntu-latest
@@ -51,7 +52,7 @@ jobs:
       shell: bash
       env:
         RUNNER_IP: ${{ steps.ip.outputs.ipv4 }}
-        RESOURCE_GROUP: ${{ steps.ip.outputs.resource_group }}
+        RESOURCE_GROUP: ${{ steps.ip.outputs.rg_name }}
         
     - name: Terraform fmt
       run: |
@@ -112,7 +113,7 @@ jobs:
         MAX_BID: ${{github.event.inputs.max_bid}}
         ALLOWED_IPS: ${{github.event.inputs.allowed_ip}}
         RUNNER_IP: ${{ steps.ip.outputs.ipv4 }}
-        RESOURCE_GROUP: ${{ steps.ip.outputs.resource_group }}
+        RESOURCE_GROUP: ${{ steps.ip.outputs.rg_name }}
 
     - name: Terraform Apply
       id: apply
@@ -138,4 +139,4 @@ jobs:
         MAX_BID: ${{github.event.inputs.max_bid}}
         ALLOWED_IPS: ${{github.event.inputs.allowed_ip}}
         RUNNER_IP: ${{ steps.ip.outputs.ipv4 }}
-        RESOURCE_GROUP: ${{ steps.ip.outputs.resource_group }}
+        RESOURCE_GROUP: ${{ steps.ip.outputs.rg_name }}
