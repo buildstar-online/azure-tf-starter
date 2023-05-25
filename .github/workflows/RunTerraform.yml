@@ -34,15 +34,15 @@ jobs:
     
     - name: Install Azure CLI
       uses: elstudio/action-install-azure-cli@v1
+
+    - name: Public IP
+      id: ip
+      uses: haythem/public-ip@v1.3
       
     - name: Azure Login
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    
-    - name: Public IP
-      id: ip
-      uses: haythem/public-ip@v1.3
       
     - name: Manage Firewalls
       run: |
