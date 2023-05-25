@@ -9,6 +9,22 @@ export runner_ip=$2
 # Resource group name
 export resource_group=$3
 
+rg_exists(){
+    echo "🔍 Checking if resource group exists..."
+    exists=$(az group list \
+        --query "[*].name" \
+        -o tsv |\
+        grep -cw $resource_group)
+
+    if [ "$exists" -gt "0" ]; then
+        echo " > Resource Group exists."
+    else
+        echo " ⚠️ Resource group not found"
+        exit
+    fi
+}
+
+
 find_names()
 {
     # Name of the storage account
@@ -144,6 +160,7 @@ registry()
     fi
 }
 
+rg_exists
 find_names
 storage_account
 keyvault
