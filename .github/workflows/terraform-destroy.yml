@@ -22,11 +22,34 @@ on:
         description: 'VM Disk Size (GB)'
         required: true
         default: '64'
+      resource_group:
+        description: 'Resource Group Name'
+        required: true
+        default: 'demo-rg'
 jobs:
   terraform-destroy:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    
+    - name: Public IP
+      id: ip
+      uses: haythem/public-ip@v1.3
+      
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+    - name: Manage Firewalls
+      run: |
+        chmod +x access-helper.sh && \
+        bash access-helper.sh add $RUNNER_IP $RESOURCE_GROUP
+      shell: bash
+      env:
+        RUNNER_IP: ${{ steps.ip.outputs.ipv4 }}
+        RESOURCE_GROUP: ${{ github.event.inputs.resource_group }}
+    
     - name: Terraform fmt
       run: |
         docker run --platform linux/amd64 \
@@ -63,10 +86,6 @@ jobs:
       continue-on-error: false
       shell: bash
 
-    - name: Public IP
-      id: ip
-      uses: haythem/public-ip@v1.3
-      
     - name: Terraform Destroy
       id: apply
       run: |
