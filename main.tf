@@ -9,7 +9,7 @@ locals {
 
   # Security Options
   admin_identity = "bradley"
-  admin_users    = ["${data.azurerm_client_config.current.client_id}"]
+  admin_users    = ["${data.azurerm_client_config.current.object_id}"]
 }
 
 module "environment-base" {
