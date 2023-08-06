@@ -72,7 +72,7 @@ module "scale-set" {
   ultra_ssd_enabled               = false
   scale_in_rule                   = "NewestVM"
   scale_in_force_deletion_enabled = true
-  cloud_init_path                 = "cloud-init.txt"
+  cloud_init_path                 = "cloud-init.yaml"
   vm_admin_username               = local.admin_identity
   vm_name_prefix                  = "${local.environment}-"
   vm_network_interface            = "vm-nic"
