@@ -1,8 +1,17 @@
-# Modular Azure Starter Project
+<h1 align=center>
+   Azure Cloud Starter Project
+</h1>
 
-Modules in use:
-1. [azure-tf-base](https://github.com/cloudymax/modules-azure-tf-base)
-2. [azure-tf-scale-set ](https://github.com/cloudymax/modules-azure-tf-scale-set)
+<p align="center">
+  <img width="64" src="https://icons-for-free.com/iconfiles/png/512/terraform-1331550893634583795.png">
+  <img width="64" src="https://icons-for-free.com/iconfiles/png/512/Azure-1329545813777356941.png">
+<p>
+
+<p align=center>
+Create and manage the basic resources needed for a new Azure project <br> 
+  using Terraform and Github Actions.<br>
+</p>
+<br>
 
 ## Getting Started
 
