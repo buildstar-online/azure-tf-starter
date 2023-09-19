@@ -246,6 +246,7 @@ This project is tested using NVadsA10v5, NCasT4_v3, and NVv3 instances which uti
 | Name | Version |
 |------|---------|
 | <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~>3.47.0 |
+| <a name="provider_template"></a> [template](#provider\_template) | n/a |
 
 ## Modules
 
@@ -259,10 +260,40 @@ This project is tested using NVadsA10v5, NCasT4_v3, and NVv3 instances which uti
 | Name | Type |
 |------|------|
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
+| [template_file.this](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 
 ## Inputs
 
-No inputs.
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_account_replication_type"></a> [account\_replication\_type](#input\_account\_replication\_type) | n/a | `string` | `"LRS"` | no |
+| <a name="input_account_tier"></a> [account\_tier](#input\_account\_tier) | n/a | `string` | `"Standard"` | no |
+| <a name="input_admin_identity"></a> [admin\_identity](#input\_admin\_identity) | n/a | `string` | `"bradley"` | no |
+| <a name="input_allowed_ips"></a> [allowed\_ips](#input\_allowed\_ips) | n/a | `list(string)` | n/a | yes |
+| <a name="input_cr_sku"></a> [cr\_sku](#input\_cr\_sku) | n/a | `string` | `"Basic"` | no |
+| <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | `"dmeo"` | no |
+| <a name="input_eviction_policy"></a> [eviction\_policy](#input\_eviction\_policy) | n/a | `string` | `"Deallocate"` | no |
+| <a name="input_github_username"></a> [github\_username](#input\_github\_username) | n/a | `string` | `""` | no |
+| <a name="input_hostname"></a> [hostname](#input\_hostname) | n/a | `string` | `"azurespot"` | no |
+| <a name="input_kv_sku_name"></a> [kv\_sku\_name](#input\_kv\_sku\_name) | n/a | `string` | `"standard"` | no |
+| <a name="input_location"></a> [location](#input\_location) | n/a | `string` | `"westeurope"` | no |
+| <a name="input_log_storage_tier"></a> [log\_storage\_tier](#input\_log\_storage\_tier) | n/a | `string` | `"Hot"` | no |
+| <a name="input_max_bid_price"></a> [max\_bid\_price](#input\_max\_bid\_price) | n/a | `string` | `"0.24"` | no |
+| <a name="input_overprovision"></a> [overprovision](#input\_overprovision) | n/a | `bool` | `false` | no |
+| <a name="input_priority"></a> [priority](#input\_priority) | n/a | `string` | `"Spot"` | no |
+| <a name="input_resource_group"></a> [resource\_group](#input\_resource\_group) | n/a | `string` | `"demo-rg"` | no |
+| <a name="input_scale_in_force_deletion_enabled"></a> [scale\_in\_force\_deletion\_enabled](#input\_scale\_in\_force\_deletion\_enabled) | n/a | `bool` | `true` | no |
+| <a name="input_scale_in_rule"></a> [scale\_in\_rule](#input\_scale\_in\_rule) | n/a | `string` | `"NewestVM"` | no |
+| <a name="input_scale_set_name"></a> [scale\_set\_name](#input\_scale\_set\_name) | n/a | `string` | `"scale-set"` | no |
+| <a name="input_spot_restore_enabled"></a> [spot\_restore\_enabled](#input\_spot\_restore\_enabled) | n/a | `bool` | `true` | no |
+| <a name="input_spot_restore_timeout"></a> [spot\_restore\_timeout](#input\_spot\_restore\_timeout) | n/a | `string` | `"PT1H30M"` | no |
+| <a name="input_ultra_ssd_enabled"></a> [ultra\_ssd\_enabled](#input\_ultra\_ssd\_enabled) | n/a | `bool` | `false` | no |
+| <a name="input_user_data_path"></a> [user\_data\_path](#input\_user\_data\_path) | n/a | `string` | `"NVadsA10v5.yaml"` | no |
+| <a name="input_username"></a> [username](#input\_username) | n/a | `string` | `"friend"` | no |
+| <a name="input_vm_instances"></a> [vm\_instances](#input\_vm\_instances) | n/a | `number` | `1` | no |
+| <a name="input_vm_network_interface"></a> [vm\_network\_interface](#input\_vm\_network\_interface) | n/a | `string` | `"vm-nic"` | no |
+| <a name="input_vm_os_disk_size_gb"></a> [vm\_os\_disk\_size\_gb](#input\_vm\_os\_disk\_size\_gb) | n/a | `number` | `64` | no |
+| <a name="input_vm_sku"></a> [vm\_sku](#input\_vm\_sku) | n/a | `string` | `"Standard_NV6ads_A10_v5"` | no |
 
 ## Outputs
 
