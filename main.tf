@@ -49,16 +49,6 @@ module "environment-base" {
 
 }
 
-data template_file "this" {
-  template = file("${var.user_data_path}")
-
-  vars = {
-    HOSTNAME               = var.hostname
-    USERNAME               = var.username
-    GITHUB_USERNAME        = var.github_username
-  }
-}
-
 module "scale-set" {
 
   source = "github.com/cloudymax/modules-azure-tf-scale-set"
