@@ -55,17 +55,14 @@ variable "scale_set_name" {
 
 variable "vm_sku" {
   type    = string
-  default = "Standard_NV6ads_A10_v5"
 }
 
 variable "username" {
   type    = string
-  default = "friend"
 }
 
 variable "github_username" {
   type    = string
-  default = ""
 }
 
 variable "hostname" {
@@ -100,7 +97,6 @@ variable "eviction_policy" {
 
 variable "max_bid_price" {
   type    = string
-  default = "0.24"
 }
 
 variable "overprovision" {
