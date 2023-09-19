@@ -58,6 +58,21 @@ variable "vm_sku" {
   default = "Standard_NV6ads_A10_v5"
 }
 
+variable "username" {
+  type    = string
+  default = "friend"
+}
+
+variable "github_username" {
+  type    = string
+  default = ""
+}
+
+variable "hostname" {
+  type    = string
+  default = "azurespot"
+}
+
 variable "vm_instances" {
   type    = number
   default = 1
