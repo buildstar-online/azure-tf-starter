@@ -108,4 +108,6 @@ runcmd:
   # Nvidia Driver
   - wget -O NVIDIA-Linux-x86_64-grid.run https://go.microsoft.com/fwlink/?linkid=874272  
   - chmod +x NVIDIA-Linux-x86_64-grid.run
-  - sudo ./NVIDIA-Linux-x86_64-grid.run
+  - sudo ./NVIDIA-Linux-x86_64-grid.run -x
+  - sudo bash NVIDIA-Linux-x86_64-grid/nvidia-installer --silent --install-compat32-libs --no-nouveau-check
+  - sudo nvidia-xconfig
