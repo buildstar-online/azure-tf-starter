@@ -49,6 +49,7 @@ jobs:
       env:
         RUNNER_IP: ${{ steps.ip.outputs.ipv4 }}
         RESOURCE_GROUP: ${{ github.event.inputs.resource_group }}
+      continue-on-error: true
     
     - name: Terraform fmt
       run: |
