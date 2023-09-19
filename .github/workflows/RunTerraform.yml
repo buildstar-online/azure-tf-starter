@@ -103,7 +103,7 @@ jobs:
           -var="vm_instances=$NUM_INSTANCES" \
           -var="max_bid_price=$MAX_BID" \
           -var='allowed_ips=["${{github.event.inputs.allowed_ip}}", "${{ steps.ip.outputs.ipv4 }}"]'
-      continue-on-error: true
+      continue-on-error: false
       shell: bash
       env:
         VM_SKU: ${{ github.event.inputs.vm_sku }}
