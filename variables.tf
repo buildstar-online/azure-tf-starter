@@ -108,9 +108,9 @@ variable "scale_in_force_deletion_enabled" {
   default = true
 }
 
-variable "cloud_init_path" {
+variable "user_data_path" {
   type    = string
-  default = "cloud-init.txt"
+  default = "NVadsA10v5.yaml"
 }
 
 variable "vm_network_interface" {
