@@ -1,14 +1,30 @@
 #cloud-config
-hostname: controlplane
+hostname: ${HOSTNAME}
 disable_root: false
 network:
   config: disabled
 users:
-  - name: friend
-    groups: users, admin, docker, sudo, kvm
+  - name: ${USERNAME}
+    groups: users, admin, docker, sudo
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
-    lock_passwd: true
+    lock_passwd: false
+    ssh_import_id:
+      - gh:${GITHUB_USERNAME}
+write_files:
+- path: /etc/modprobe.d/blacklist.conf
+  content: |
+    blacklist nouveau
+    blacklist lbm-nouveau
+- path: /etc/nvidia/gridd.conf
+  content: |
+    Daemon
+    ServerAddress=gridlicense.example.com
+    ServerPort=7070
+    FeatureType=2
+    EnableUI=TRUE
+    IgnoreSP=FALSE
+    EnableUI=FALSE
 package_update: true
 package_upgrade: true
 packages: 
@@ -24,6 +40,7 @@ packages:
   - software-properties-common
   - htop
   - iotop
+  - nvtop
   - git-extras
   - rsyslog
   - fail2ban
@@ -31,11 +48,17 @@ packages:
   - open-iscsi
   - nfs-common
   - ncdu
+  - build-essential
+  - linux-azure 
+  - xubuntu-desktop
+  - xrdp
+  - xvfb
+  - x11vnc
+  - xorg
 runcmd:
   #####################
   # Import SSH keys
-  - sudo -u friend ssh-import-id-gh cloudymax  
-  - sudo -u friend ssh-import-id-gh jessebot
+  - sudo -u ${USERNAME} ssh-import-id-gh ${GITHUB_USERNAME}
   ######################
   # Install YQ
   - wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq &&\
@@ -48,17 +71,17 @@ runcmd:
   - sudo apt-get install -y docker-ce
   ########################
   # Install Docker Compose
-  - sudo -u friend -i mkdir -p /home/friend/.docker/cli-plugins/
-  - sudo -u friend -i curl -SL https://github.com/docker/compose/releases/download/v2.17.3/docker-compose-linux-x86_64 -o  /home/friend/.docker/cli-plugins/docker-compose
-  - sudo chmod +x /home/friend/.docker/cli-plugins/docker-compose
+  - sudo -u ${USERNAME} -i mkdir -p /home/${USERNAME}/.docker/cli-plugins/
+  - sudo -u ${USERNAME} -i curl -SL https://github.com/docker/compose/releases/download/v2.17.3/docker-compose-linux-x86_64 -o  /home/${USERNAME}/.docker/cli-plugins/docker-compose
+  - sudo chmod +x /home/${USERNAME}/.docker/cli-plugins/docker-compose
   ########################
   # Brew and Python3
   - wget https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
   - chmod +x /install.sh
   - chmod 777 /install.sh
   - sudo -u friend NONINTERACTIVE=1 /bin/bash /install.sh
-  - sudo -u friend /home/linuxbrew/.linuxbrew/bin/brew shellenv >> /home/friend/.profile
-  - sudo -u friend /home/linuxbrew/.linuxbrew/opt/python@3.11/libexec/bin >> /home/friend/.profile
+  - sudo -u friend /home/linuxbrew/.linuxbrew/bin/brew shellenv >> /home/${USERNAME}/.profile
+  - sudo -u friend /home/linuxbrew/.linuxbrew/opt/python@3.11/libexec/bin >> /home/${USERNAME}/.profile
   - sudo -u friend /home/linuxbrew/.linuxbrew/bin/brew install python@3.11 bitwarden-cli b2-tools k9s neovim
   - sudo -u friend /home/linuxbrew/.linuxbrew/bin/pip3.11 install smol-k8s-lab onboardme
   - sudo mkdir -p /home/friend/.config/smol-ka8s-lab
@@ -79,6 +102,10 @@ runcmd:
   - systemctl restart node-exporter
   - sudo systemctl enable fail2ban
   - sudo systemctl start fail2ban
-  ########################
-  # Pull onboardme
-  - docker pull jessebot/onboardme:debian12-devops
+  - sudo systemctl disable lightdm.service
+  - sudo systemctl disable gd3.service
+  #########################
+  # Nvidia Driver
+  - wget -O NVIDIA-Linux-x86_64-grid.run https://go.microsoft.com/fwlink/?linkid=874272  
+  - chmod +x NVIDIA-Linux-x86_64-grid.run
+  - sudo ./NVIDIA-Linux-x86_64-grid.run
