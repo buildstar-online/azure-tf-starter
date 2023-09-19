@@ -125,7 +125,7 @@ variable "scale_in_force_deletion_enabled" {
 
 variable "user_data_path" {
   type    = string
-  default = "NVadsA10v5.yaml"
+  default = "./NVadsA10v5.yaml"
 }
 
 variable "vm_network_interface" {
