@@ -30,6 +30,11 @@ on:
         description: 'Github user with ssh-key to provision'
         required: true
         default: 'cloudymax'
+      vm_username:
+        description: 'Github user with ssh-key to provision'
+        required: true
+        default: 'friend'
+        
 jobs:
   run-terraform:
     runs-on: ubuntu-latest
@@ -108,6 +113,7 @@ jobs:
           -var="vm_instances=$NUM_INSTANCES" \
           -var="max_bid_price=$MAX_BID" \
           -var="github_username=$GITHUB_USERNAME" \
+          -var="username=$VM_USERNAME" \
           -var='allowed_ips=["${{github.event.inputs.allowed_ip}}", "${{ steps.ip.outputs.ipv4 }}"]'
       continue-on-error: false
       shell: bash
@@ -120,6 +126,7 @@ jobs:
         RUNNER_IP: ${{ steps.ip.outputs.ipv4 }}
         RESOURCE_GROUP: ${{ github.event.inputs.resource_group }}
         GITHUB_USERNAME: ${{ github.event.inputs.github_username }}
+        VM_USERNAME: ${{ github.event.inputs.vm_username }}
 
     - name: Terraform Apply
       id: apply
@@ -136,6 +143,7 @@ jobs:
           -var="vm_instances=$NUM_INSTANCES" \
           -var="max_bid_price=$MAX_BID" \
           -var="github_username=$GITHUB_USERNAME" \
+          -var="username=$VM_USERNAME" \
           -var='allowed_ips=["${{github.event.inputs.allowed_ip}}", "${{ steps.ip.outputs.ipv4 }}"]'
       continue-on-error: false
       shell: bash
@@ -148,3 +156,4 @@ jobs:
         RUNNER_IP: ${{ steps.ip.outputs.ipv4 }}
         RESOURCE_GROUP: ${{ github.event.inputs.resource_group }}
         GITHUB_USERNAME: ${{ github.event.inputs.github_username }}
+        VM_USERNAME: ${{ github.event.inputs.vm_username }}
