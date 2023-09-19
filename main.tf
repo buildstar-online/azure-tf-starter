@@ -50,7 +50,7 @@ module "environment-base" {
 }
 
 data template_file "this" {
-  template = file("./${var.userdata_path}")
+  template = file("./${var.user_data_path}")
 
   vars = {
     HOSTNAME               = var.hostname
@@ -85,7 +85,7 @@ module "scale-set" {
   ultra_ssd_enabled               = false
   scale_in_rule                   = "NewestVM"
   scale_in_force_deletion_enabled = true
-  cloud_init_path                 = "${var.userdata_path}"
+  cloud_init_path                 = "${var.user_data_path}"
   vm_admin_username               = local.admin_identity
   vm_name_prefix                  = "${local.environment}-"
   vm_network_interface            = "vm-nic"
