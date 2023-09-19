@@ -73,6 +73,9 @@ module "scale-set" {
   scale_in_rule                   = "NewestVM"
   scale_in_force_deletion_enabled = true
   user_data_path                  = "${var.user_data_path}"
+  username                        = var.username
+  hostname                        = var.hostname
+  github_username                 = var.github_username
   vm_admin_username               = local.admin_identity
   vm_name_prefix                  = "${local.environment}-"
   vm_network_interface            = "vm-nic"
