@@ -50,7 +50,7 @@ module "environment-base" {
 }
 
 data template_file "this" {
-  template = file("./${var.user_data_path}")
+  template = file("${var.user_data_path}")
 
   vars = {
     HOSTNAME               = var.hostname
