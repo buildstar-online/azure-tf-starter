@@ -1,0 +1,84 @@
+name: Delete from state
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Item to remove from state'
+        required: true
+        default: 'null' 
+jobs:
+  delete-from-state:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install Azure CLI
+      uses: elstudio/action-install-azure-cli@v1
+
+    - name: Public IP
+      id: ip
+      uses: haythem/public-ip@v1.3
+      
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+    - name: Manage Firewalls
+      run: |
+        chmod +x access-helper.sh
+        #bash access-helper.sh add $RUNNER_IP $RESOURCE_GROUP
+      shell: bash
+      env:
+        RUNNER_IP: ${{ steps.ip.outputs.ipv4 }}
+        RESOURCE_GROUP: ${{ github.event.inputs.resource_group }}
+        
+    - name: Terraform fmt
+      run: |
+        docker run --platform linux/amd64 \
+          -e ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }} \
+          -e ARM_CLIENT_SECRET=${{ secrets.ARM_CLIENT_SECRET }} \
+          -e ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }} \
+          -e ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }} \
+          -v $(pwd):/terraform -w /terraform \
+          hashicorp/terraform fmt
+      continue-on-error: false
+      shell: bash
+
+    - name: Terraform Init
+      run: |
+        docker run --platform linux/amd64 \
+          -e ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }} \
+          -e ARM_CLIENT_SECRET=${{ secrets.ARM_CLIENT_SECRET }} \
+          -e ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }} \
+          -e ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }} \
+          -v $(pwd):/terraform -w /terraform \
+          hashicorp/terraform init --upgrade
+      continue-on-error: false
+      shell: bash
+      
+    - name: Terraform Validate
+      run: |
+        docker run --platform linux/amd64 \
+          -e ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }} \
+          -e ARM_CLIENT_SECRET=${{ secrets.ARM_CLIENT_SECRET }} \
+          -e ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }} \
+          -e ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }} \
+          -v $(pwd):/terraform -w /terraform \
+          hashicorp/terraform validate -no-color
+      continue-on-error: false
+      shell: bash
+      
+    - name: Remove Item
+      run: |
+        docker run --platform linux/amd64 \
+          -e ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }} \
+          -e ARM_CLIENT_SECRET=${{ secrets.ARM_CLIENT_SECRET }} \
+          -e ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }} \
+          -e ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }} \
+          -v $(pwd):/terraform -w /terraform \
+          hashicorp/terraform state rm $TARGET
+      continue-on-error: false
+      shell: bash
+      env:
+        TARGET: ${{ github.event.inputs.target }}
