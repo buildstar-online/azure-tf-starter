@@ -49,6 +49,19 @@ module "environment-base" {
 
 }
 
+data template_file "this" {
+  template = file("./${var.userdata_path}")
+
+  vars = {
+    HOSTNAME               = var.hostname
+    USERNAME               = var.username
+    GITHUB_USERNAME        = var.github_username
+    AWS_ACCESS_KEY_ID      = var.aws_access_key_id 
+    AWS_SECRET_ACCESS_KEY  = var.aws_secret_access_key
+    REGION                 = var.region
+  }
+}
+
 module "scale-set" {
 
   source = "github.com/cloudymax/modules-azure-tf-scale-set"
@@ -72,7 +85,7 @@ module "scale-set" {
   ultra_ssd_enabled               = false
   scale_in_rule                   = "NewestVM"
   scale_in_force_deletion_enabled = true
-  cloud_init_path                 = "cloud-init.yaml"
+  cloud_init_path                 = "${var.userdata_path}"
   vm_admin_username               = local.admin_identity
   vm_name_prefix                  = "${local.environment}-"
   vm_network_interface            = "vm-nic"
