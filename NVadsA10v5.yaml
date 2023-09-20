@@ -103,7 +103,6 @@ runcmd:
   - sudo systemctl enable fail2ban
   - sudo systemctl start fail2ban
   - sudo systemctl disable lightdm.service
-  - sudo systemctl disable gd3.service
   #########################
   # Nvidia Driver
   - wget -O NVIDIA-Linux-x86_64-grid.run https://go.microsoft.com/fwlink/?linkid=874272  
