@@ -197,38 +197,40 @@ This project is tested using NVadsA10v5, NCasT4_v3, and NVv3 instances which uti
  - 64 vCores for NCasT4_v3
  - 48 vCores for NVv3
 
+> All prices are for Spot/hourly in the closest datacenter to Amsterdam, NL
+
 ### NVadsA10v5
 
 - NVadsA10v5 series virtual machines are powered by NVIDIA A10 GPUs and AMD EPYC 74F3V(Milan) CPUs with a base frequency of 3.2 GHz, peak frequency of all cores of 4.0 GHz.
 
-   | Instance Size            | GPUs   | GPU RAM | vCPUs | RAM (GiB) | Disk Size (GB) | Network (Gbps) |
-   |   ---                    |  ---   |  ---    |    ---|        ---|             ---|             ---|
-   | Standard_NV6ads_A10_v5   | 1/6    | 4       | 6     | 55        | 180            | 5              |
-   | Standard_NV12ads_A10_v5  | 1/3    | 8       | 12    | 110       | 360            | 10             |
-   | Standard_NV18ads_A10_v5  | 1/2    | 12      | 18    | 220       | 720            | 20             |
-   | Standard_NV36ads_A10_v5  | 1      | 24      | 36    | 440       | 1440           | 40             |
-   | Standard_NV72ads_A10_v5  | 2      | 48      | 72    | 880       | 2880           | 80             |
+   | Instance Size            | GPUs   | GPU RAM | vCPUs | RAM (GiB) | Disk Size (GB) | Network (Gbps) | Spot Price |
+   |   ---                    |  ---   |  ---    |    ---|        ---|             ---|             ---|         ---|
+   | Standard_NV6ads_A10_v5   | 1/6    | 4       | 6     | 55        | 180            | 5              |     €0.1362|
+   | Standard_NV12ads_A10_v5  | 1/3    | 8       | 12    | 110       | 360            | 10             |     €0.2724|
+   | Standard_NV18ads_A10_v5  | 1/2    | 12      | 18    | 220       | 720            | 20             |     €0.4802|
+   | Standard_NV36ads_A10_v5  | 1      | 24      | 36    | 440       | 1440           | 40             |     €0.9604|
+   | Standard_NV72ads_A10_v5  | 2      | 48      | 72    | 880       | 2880           | 80             |     €1.9568|
 
 ### NCasT4_v3
 
 - NCasT4_v3 series virtual machines are powered by Nvidia Tesla T4 GPUs and AMD EPYC 7V12(Rome) CPUs. 
 
-   | Instance Size         | GPUs | GPU RAM | vCPUs | RAM (GiB) | Disk Size (GB) | Network (Gbps) |
-   |   ---                 |  --- |  ---    |    ---|        ---|             ---|             ---|
-   | Standard_NC4as_T4_v3  | 1    | 16      | 4     | 28        | 180            | 8              |
-   | Standard_NC8as_T4_v3  | 1    | 16      | 8     | 56        | 360            | 8              |
-   | Standard_NC16as_T4_v3 | 1    | 16      | 16    | 110       | 360            | 8              |
-   | Standard_NC64as_T4_v3 | 4    | 64      | 64    | 440       | 2880           | 32             |
+   | Instance Size         | GPUs | GPU RAM | vCPUs | RAM (GiB) | Disk Size (GB) | Network (Gbps) | Spot Price |
+   |   ---                 |  --- |  ---    |    ---|        ---|             ---|             ---|         ---|
+   | Standard_NC4as_T4_v3  | 1    | 16      | 4     | 28        | 180            | 8              |     €0.1275|
+   | Standard_NC8as_T4_v3  | 1    | 16      | 8     | 56        | 360            | 8              |     €0.1821|
+   | Standard_NC16as_T4_v3 | 1    | 16      | 16    | 110       | 360            | 8              |     €0.2916|
+   | Standard_NC64as_T4_v3 | 4    | 64      | 64    | 440       | 2880           | 32             |     €1.0539|
 
 ### NVv3
 
 - The NVv3 series virtual machines are powered by NVIDIA Tesla M60 GPUs and NVIDIA GRID technology with Intel E5-2690 v4 (Broadwell) CPUs and Intel Hyper-Threading Technology.
 
-   | Instance Size       | GPUs | GPU RAM | vCPUs | RAM (GiB) | Disk Size (GB) | Network (Gbps) |
-   |   ---               |  --- |  ---    |    ---|        ---|             ---|             ---|
-   | Standard_NV12s_v3   | 1    | 8       | 12    | 112       | 320            | 6              |
-   | Standard_NV24s_v3   | 2    | 16      | 24    | 224       | 640            | 12             |
-   | Standard_NV48s_v3   | 4    | 32      | 48    | 448       | 1280           | 24             |
+   | Instance Size       | GPUs | GPU RAM | vCPUs | RAM (GiB) | Disk Size (GB) | Network (Gbps) | Spot Price |
+   |   ---               |  --- |  ---    |    ---|        ---|             ---|             ---|         ---|
+   | Standard_NV12s_v3   | 1    | 8       | 12    | 112       | 320            | 6              |     €0.1317|
+   | Standard_NV24s_v3   | 2    | 16      | 24    | 224       | 640            | 12             |     €0.2632|
+   | Standard_NV48s_v3   | 4    | 32      | 48    | 448       | 1280           | 24             |     €0.5264|
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
